@@ -15,7 +15,7 @@ const newTransaction = async (req, res) => {
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "User not found!",
       });
@@ -46,10 +46,17 @@ const getAllTransactions = async (req, res) => {
   try {
     const { userId } = req.query;
 
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        message: "userId query parameter is required.",
+      });
+    }
+
     const user = await User.findOne({ _id: userId });
 
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "User not found!",
       });
@@ -78,7 +85,7 @@ const updateTransaction = async (req, res) => {
     const transaction = await Transaction.findOne({ _id: transactionId });
 
     if (!transaction) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "Transaction not found!",
       });
@@ -108,7 +115,7 @@ const getTransactionDetails = async (req, res) => {
     const transaction = await Transaction.findOne({ _id: transactionId });
 
     if (!transaction) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
         message: "Transaction not found!",
       });
